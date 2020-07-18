@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/d18e4c48d4.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Patua+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+    <style>
+    </style>
+    </head>
+    <body>
+        <div class="container-fluid px-0">
+            <div class="row">
+                <div class=" col-4 calculator p-0">
+                    <div class="calculation text-right pt-1 pr-1"><h5 class="mb-1" id="caldisplay"></h5></div>
+                    <div class="calculation"><h2 class="my-0 text-right pr-1" id="display">0</h2></div>
+                    <div id="sign">
+                        <div class="row justify-content-center">
+                            <div class="col-6 p-0 text-center"id="ac"><h4>AC</h4>
+                            </div>
+                            <div class="col-3 md text-center"><h4><i class="fas fa-divide"></i></h4>
+                            </div>
+                            <div class="col-3 md  text-center"><h4><i class="fas fa-times"></i></h4>
+                            </div>                            
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-3 num text-center"><h4>7</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>8</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>9</i></h4>
+                            </div>
+                            <div class="col-3 md  text-center"><h4><i class="fas fa-minus"></i></h4>
+                            </div>                            
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-3 num text-center"><h4>4</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>5</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>6</h4>
+                            </div>
+                            <div class="col-3 md  text-center"><h4><i class="fas fa-plus"></i></h4>
+                            </div>                            
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-3 num text-center"><h4>1</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>2</h4>
+                            </div>
+                            <div class="col-3 num text-center"><h4>3</h4>
+                            </div>
+                            <div class="col-3 equal  text-center" id="equal1"><h4 id=equals><i class="fas fa-equals"></i></h4>
+                            </div>                            
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-6 num text-center"><h4>0</h4>
+                            </div>
+                            <div class="col-3 dot text-center"><h4>.</h4>
+                            </div>
+                            <div class="col-3 equal  text-center" id="equal2"><h4></h4>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script>
+            var num=0;
+            var result;
+            function checkcal(str){
+                for(var i=0;i<str.length;i++){
+                    if(str[i]=="="){
+                        return str.substr(0,i);
+                    }
+                }
+                return str;
+            }
+            function checker(str){
+                for(var i=0;i<str.length;i++){
+                    if(str[i]=="="){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            function dotchecker(str){
+                let numdot=0;
+                if(str[str.length-1]=="."||numdot>1){
+                    return false;
+                }
+                for(var i=0;i<str.length;i++) {
+                    if(str[i]="."){
+                        numdot++;
+                    }
+                    if(str[i]=="+"||str[i]=="-"||str[i]=="*"||str[i]=="/"){
+                        numdot=0;
+                    }
+                    if(numdot>1){
+                        return false;
+                    }
+                    if(numdot==1 || numdot==0){
+                        return true
+                    }
+                }
+            }
+            $(document).ready(function(){
+                $("#equal1").hover(function(){
+                    $("#equal1").toggleClass("toggleclass1");
+                    $("#equal2").toggleClass("toggleclass2");
+                });
+                $("#equal2").hover(function(){
+                    $("#equal1").toggleClass("toggleclass1");
+                    $("#equal2").toggleClass("toggleclass2");
+                });
+                $("#ac").click(function(){
+                    $("#display").html("0");
+                    $("#caldisplay").html("");
+                });
+                $(".num").click(function(){
+                    if(checker($("#caldisplay").html())){
+                    if($("#display").html()=="0"||$("#display").html()=="X"||$("#display").html()=="/"||$("#display").html()=="+"||$("#display").html()=="-"){
+                     $("#display").html($(this).children().html());
+                     $("#caldisplay").append($(this).children().html());
+                    }
+                    else{
+                     $("#display").append($(this).children().html());
+                     $("#caldisplay").append($(this).children().html());}}
+                     else{
+                     $("#display").html($(this).children().html());
+                     $("#caldisplay").html($(this).children().html());
+
+                     }
+                });
+                $(".dot").click(function(){
+                    if(dotchecker( $("#caldisplay").html())){
+                    if(checker($("#caldisplay").html())){
+                    if($("#display").html()=="0"||$("#display").html()=="X"||$("#display").html()=="/"||$("#display").html()=="+"||$("#display").html()=="-"){
+                     $("#display").html($(this).children().html());
+                     $("#caldisplay").append($(this).children().html());
+                    }
+                    else{
+                     $("#display").append($(this).children().html());
+                     $("#caldisplay").append($(this).children().html());}}
+                     else{
+                     $("#display").html($(this).children().html());
+                     $("#caldisplay").html($(this).children().html());
+
+                     }}
+                });
+                $(".md").click(function(){
+                    
+                    $("#caldisplay").html(eval(checkcal($("#caldisplay").html())));
+                    if($(this).children().children().attr("class")=="fas fa-divide"){
+                    if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="-"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"/"); 
+                        $("#display").html("/");
+                        }
+                        if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="+"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"/"); 
+                        $("#display").html("/");
+                        }
+                    else if($("#caldisplay").html()[$("#caldisplay").html().length-1]!="/"){
+                        $("#display").html("/");
+                        $("#caldisplay").append("/");}
+
+                    }
+                    else if($(this).children().children().attr("class")=="fas fa-times"){
+                        if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="-"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"*"); 
+                        $("#display").html("X");
+                        }
+                        if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="+"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"*"); 
+                        $("#display").html("/");
+                        }
+                        else if($("#caldisplay").html()[$("#caldisplay").html().length-1]!="*"){
+                     $("#display").html("X");
+                     $("#caldisplay").append("*");}
+                    }
+                    else if($(this).children().children().attr("class")=="fas fa-plus"){
+                        if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="-"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"+"); 
+                        $("#display").html("+");
+                        }
+                        else if($("#caldisplay").html()[$("#caldisplay").html().length-1]!="+"){
+                     $("#display").html("+");
+                     $("#caldisplay").append("+");}
+                    }
+                    else if($(this).children().children().attr("class")=="fas fa-minus"){
+                        if($("#caldisplay").html()[$("#caldisplay").html().length-1]=="-"){
+                        $("#caldisplay").html($("#caldisplay").html().substr(0,$("#caldisplay").html().length-1)+"-"); 
+                        $("#display").html("-");
+                        }
+                         else if($("#caldisplay").html()[$("#caldisplay").html().length-1]!="-"){
+                     $("#display").html("-");
+                     $("#caldisplay").append("-");}
+                    }
+                });
+                $(".equal").click(function(){
+                    result=eval($("#caldisplay").html());
+                    $("#caldisplay").append("="+result);
+                    $("#display").html(result);
+                });
+            });
+        </script>
+    </body>
+    </html>
